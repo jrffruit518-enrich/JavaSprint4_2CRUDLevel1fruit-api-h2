@@ -31,8 +31,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(MethodArgumentNotValidException e) {
-        // 你可以提取具体的错误信息，或者简单返回一个通用的提示
         return new ErrorResponse(400, "Validation failed", LocalDateTime.now());
+    }
+
+    @ExceptionHandler(FruitExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleFruitExists(FruitExistsException e) {
+        return new ErrorResponse(409, e.getMessage(), LocalDateTime.now());
     }
 
 }

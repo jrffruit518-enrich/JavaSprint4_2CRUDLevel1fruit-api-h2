@@ -1,6 +1,7 @@
 package cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.service;
 
 import cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.entity.Fruit;
+import cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.exception.FruitExistsException;
 import cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.exception.IdExistsException;
 import cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.repository.FruitRepository;
 import org.junit.jupiter.api.Test;
@@ -29,11 +30,11 @@ public class FruitServiceImpTest {
         Fruit fruit = new Fruit(1505L, "apple", 15);
 
         // WHEN: createFruit is called
-        when(fruitRepository.findById(1505L))
+        when(fruitRepository.findByName("apple"))
                 .thenReturn(Optional.of(fruit));
 
         // THEN: IdExistsException is thrown and repository.save() is never called
-        assertThrows(IdExistsException.class, () -> fruitServiceImp.createFruit(fruit));
+        assertThrows(FruitExistsException.class, () -> fruitServiceImp.createFruit(fruit));
 
         verify(fruitRepository, never()).save(any());
 
