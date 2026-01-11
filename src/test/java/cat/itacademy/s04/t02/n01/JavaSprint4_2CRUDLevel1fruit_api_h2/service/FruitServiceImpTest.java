@@ -25,15 +25,39 @@ public class FruitServiceImpTest {
 
     @Test
     void create_whenIdExists_shouldThrowException() {
-        Fruit fruit = new Fruit(1505L,"apple" ,15);
+        // GIVEN: fruit id already exists
+        Fruit fruit = new Fruit(1505L, "apple", 15);
 
+        // WHEN: createFruit is called
         when(fruitRepository.findById(1505L))
                 .thenReturn(Optional.of(fruit));
 
-        assertThrows(IdExistsException.class,()->fruitRepository.save(fruit));
+        // THEN: IdExistsException is thrown and repository.save() is never called
+        assertThrows(IdExistsException.class, () -> fruitServiceImp.createFruit(fruit));
 
         verify(fruitRepository, never()).save(any());
 
     }
+
+    @Test
+    void create_whenIdNotExists_shouldCreateFruit() {
+        // GIVEN: fruit id does NOT exist
+        Fruit fruit = new Fruit(1505L, "apple", 15);
+
+        when(fruitRepository.findById(1505L))
+                .thenReturn(Optional.empty());
+
+        when(fruitRepository.save(fruit)).thenReturn(fruit);
+
+        Fruit savedFruit = fruitServiceImp.createFruit(fruit);
+
+        //verify
+        assertNotNull(savedFruit);
+        assertNotNull(savedFruit.getId());
+        assertEquals("apple",fruit.getName());
+        verify(fruitRepository,times(1)).save(fruit);
+
+    }
+
 
 }
