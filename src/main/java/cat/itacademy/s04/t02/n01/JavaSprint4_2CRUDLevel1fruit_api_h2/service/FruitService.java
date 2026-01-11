@@ -10,7 +10,7 @@ public interface FruitService {
 
     Fruit createFruit(Fruit fruit);
     List<Fruit> findAllFruits();
-    Fruit findFruitById(Long id);
-    Fruit updateFruit(Long id, Fruit fruit);
-    void deleteFruitById(Long id);
+    Fruit findFruitByName(String name);
+    Fruit updateFruit(String name, Fruit fruit);
+    void deleteFruitByName(String name);
 }
