@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/fruits")
@@ -25,6 +27,11 @@ public class FruitController {
 
     }
 
+    @GetMapping()
+    public List<Fruit> findAll() {
+        return fruitService.findAllFruits();
+    }
+
 
 
     private Fruit mapToEntity(FruitRequest request) {
@@ -33,6 +40,8 @@ public class FruitController {
         fruit.setWeightInKilos(request.weightInKilos());
         return fruit;
     }
+
+
 
 
 }
