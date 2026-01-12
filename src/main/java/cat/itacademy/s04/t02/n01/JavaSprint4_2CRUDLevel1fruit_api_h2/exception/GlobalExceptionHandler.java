@@ -10,17 +10,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(IdExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleIdExists(IdExistsException e) {
-        return new ErrorResponse(409, e.getMessage(),LocalDateTime.now());
-    }
 
-    @ExceptionHandler(IdNotExistsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleIdNotExists(IdNotExistsException e) {
-        return new ErrorResponse(404, e.getMessage(), LocalDateTime.now());
-    }
+
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -38,6 +29,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleFruitExists(FruitExistsException e) {
         return new ErrorResponse(409, e.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(FruitNotExistsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleFruitNotExists(FruitNotExistsException e) {
+        return new ErrorResponse(404, e.getMessage(), LocalDateTime.now());
     }
 
 }

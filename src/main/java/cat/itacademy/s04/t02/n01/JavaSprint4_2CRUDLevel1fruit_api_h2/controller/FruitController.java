@@ -6,6 +6,7 @@ import cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.entity.Frui
 import cat.itacademy.s04.t02.n01.JavaSprint4_2CRUDLevel1fruit_api_h2.service.FruitService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,32 @@ public class FruitController {
     public List<Fruit> findAll() {
         return fruitService.findAllFruits();
     }
+
+    @GetMapping("/{name}")
+    public FruitResponse findByName(@PathVariable String name) {
+        Fruit fruit = fruitService.findFruitByName(name);
+        return new FruitResponse(fruit.getId(), fruit.getName(), fruit.getWeightInKilos());
+
+    }
+
+    @PutMapping("/{name}")
+    public FruitResponse updateFruit(
+            @PathVariable String name,
+            @RequestBody @Valid FruitRequest request
+    ) {
+        Fruit updateFruit = fruitService.updateFruit(name,mapToEntity(request));
+        return new FruitResponse(updateFruit.getId(),
+                updateFruit.getName(),
+                updateFruit.getWeightInKilos());
+    }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Void> deleteFruit(@PathVariable String name) {
+        fruitService.deleteFruitByName(name);
+        return ResponseEntity.noContent().build(); // 204
+    }
+
+
 
 
 

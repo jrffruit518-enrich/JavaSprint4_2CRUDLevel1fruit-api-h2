@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface FruitRepository extends JpaRepository<Fruit,Long> {
     Optional<Fruit> findByName(String name);
     boolean existsByName(String name);  // 可用于 create 验证
-    void deleteByName(String name);
+
 }
